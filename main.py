@@ -8,33 +8,27 @@ import csv
 V1 = ["FFbb", "Ffbb"] #Fast And Small
 V2 = ["ffBB", "ffBb"] #Slow and Big
 
-def write_to_csv(N): #Function to write Pandas Table to CSV
-    if 1 in N:
-        Group1.to_csv("Data/Group1.csv", index=False, sep=" ")
-    if 2 in N:
-        Group2.to_csv("Data/Group2.csv", index=False, sep=" ")
-    if 3 in N:
-       Group3.to_csv("Data/Group3.csv", index=False, sep=" ")
-    if 4 in N:
-        Group4.to_csv("Data/Group4.csv", index=False, sep=" ")
 
-def Start(): #Function to to summon Initial members
+
+def Start():  # Function to summon initial members
     global Group1, Group2, Group3, Group4, members, G1_members, G2_members, G3_members, G4_members
     members = 0
-    G1_members, G2_members, G3_members, G4_members = 0, 0 , 0, 0
-    Group1 = pd.read_csv("Data/Group1.csv", delimiter = " ")
-    Group2 = pd.read_csv("Data/Group2.csv", delimiter = " ")
-    Group3 = pd.read_csv("Data/Group3.csv", delimiter = " ")
-    Group4 = pd.read_csv("Data/Group4.csv", delimiter = " ")
+    G1_members = G2_members = G3_members = G4_members = 0
+
+    # Initialize groups as empty DataFrames
+    Group1 = pd.DataFrame(columns=["Members", "GenoType", "PhenoType"])
+    Group2 = pd.DataFrame(columns=["Members", "GenoType", "PhenoType"])
+    Group3 = pd.DataFrame(columns=["Members", "GenoType", "PhenoType"])
+    Group4 = pd.DataFrame(columns=["Members", "GenoType", "PhenoType"])
+
+    # Add 2 starting members (Group1 and Group2 only)
     while members < 2:
         Group1.loc[G1_members] = [f"Member{G1_members+1}", str(random.choice(V1)), "Fast_And_Small"]
         Group2.loc[G2_members] = [f"Member{G2_members+1}", str(random.choice(V2)), "Slow_And_Big"]
-
         members += 1
         G1_members += 1
         G2_members += 1
 
-    write_to_csv([1,2,3,4])
     
 def BreedRandom(PG1, PG2): #Function to breed random members of random groups
     global Group1, Group2, Group3, Group4, members, G1_members, G2_members, G3_members, G4_members
@@ -67,7 +61,6 @@ def BreedRandom(PG1, PG2): #Function to breed random members of random groups
     
 
     members += 1
-    write_to_csv([1,2,3,4])
 
 def Eating(GroupName, GroupNameP ,per1, per2, per3, VGroup1, VGroup2): #Function to manage eating 
     global ToBreedList, Food, FoodEaten, Group1, Group2, Group3, Group4, members, Deatlist
@@ -98,9 +91,7 @@ def Eating(GroupName, GroupNameP ,per1, per2, per3, VGroup1, VGroup2): #Function
         if Food <= 0:
             Deatlist.append(i)
     mems = 0
-    GroupName.to_csv(f"Data/{GroupNameP}.csv", sep=" ", index=False)
-    VGroup1.to_csv("Data/Group4.csv", sep=" ", index=False)
-    VGroup2.to_csv("Data/Group1.csv", sep=" ", index=False)
+
 
 def Breed(): #Function to manage breeding between members who meet the requirments
     global ToBreedList, Group1, Group2, Group3, Group4, members, G1_members, G2_members, G3_members, G4_members
@@ -131,7 +122,6 @@ def Breed(): #Function to manage breeding between members who meet the requirmen
             Group4.loc[G4_members] = [f"Member{G4_members+1}", str(offspring), "Slow_And_Small"]
             G4_members += 1
         members += 1
-        write_to_csv([1,2,3,4])
 
 def Eat(): #Function to feed every group using Eating() Function
     global Food
@@ -162,29 +152,14 @@ def KWDE(): #Function to eliminate members who didn't get food
     for i in Deatlist:
          if "F" in i and "B" not in i:
              Group1 = Group1[Group1["GenoType"].str.contains(i) == False]
-             Group1.to_csv("Data/Group1.csv", sep=" ")
          elif "F" not in i and "B" in i:
              Group2 = Group2[Group2["GenoType"].str.contains(i) == False]
-             Group2.to_csv("Data/Group2.csv", sep=" ")
          elif "F" and "B" in i:
              Group3 = Group3[Group3["GenoType"].str.contains(i) == False]
-             Group3.to_csv("Data/Group3.csv", sep=" ")
          elif "F" and "B" not in i:
              Group4 = Group4[Group4["GenoType"].str.contains(i) == False]
-             Group4.to_csv("Data/Group4.csv", sep=" ")
 
-def clearf(FileName): #Function to clear CSV files on start
-    with open(f"Data/{FileName}.csv", "w", newline="") as f:
-        writer = csv.writer(f, delimiter = " ")
-        writer.writerow(["Members", "GenoType", "PhenoType"])
-   
-def clear():
-    clearf("Group1")
-    clearf("Group2")
-    clearf("Group3")
-    clearf("Group4")
 
-clear()
 days = int(input("Input Days: "))
 daysPassed = 0
 Food = int(input("Input Food count: "))
