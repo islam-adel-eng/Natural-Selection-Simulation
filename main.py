@@ -29,38 +29,6 @@ def Start():  # Function to summon initial members
         G1_members += 1
         G2_members += 1
 
-    
-def BreedRandom(PG1, PG2): #Function to breed random members of random groups
-    global Group1, Group2, Group3, Group4, members, G1_members, G2_members, G3_members, G4_members
-    P1 = random.choice(PG1["GenoType"])
-    P2 = random.choice(PG2["GenoType"])
-
-    s = [[P1[0]+P1[2], P1[0]+P1[3], P1[1]+P1[2], P1[1]+P1[3]],
-         [P2[0]+P2[2], P2[0]+P2[3], P2[1]+P2[2], P2[1]+P2[3]]
-        ]
-    possibilities = [
-                     [s[0][0] + s[1][0], s[0][0] + s[1][1], s[0][0] + s[1][2], s[0][0] + s[1][3]],
-                     [s[0][1] + s[1][0], s[0][1] + s[1][1], s[0][1] + s[1][2], s[0][1] + s[1][3]],
-                     [s[0][2] + s[1][0], s[0][2] + s[1][1], s[0][2] + s[1][2], s[0][2] + s[1][3]],
-                     [s[0][3] + s[1][0], s[0][3] + s[1][1], s[0][3] + s[1][2], s[0][3] + s[1][3]]
-                    ]
-    offspring = random.choice(possibilities[random.randint(0, 3)])
-    
-    if "F" in offspring and "B" not in offspring:
-        Group1.loc[G1_members] = [f"Member{G1_members+1}", str(offspring), "Fast_And_Small"]
-        G1_members += 1
-    elif "F" not in offspring and "B" in offspring:
-        Group2.loc[G2_members] = [f"Member{G2_members+1}", str(offspring), "Slow_And_Big"]
-        G2_members += 1
-    elif "F" in offspring and "B" in offspring:
-        Group3.loc[G3_members] = [f"Member{G3_members+1}", str(offspring), "Fast_And_Big"]
-        G3_members += 1
-    elif "F" not in offspring and "B" not in offspring:
-            Group4.loc[G4_members] = [f"Member{G4_members+1}", str(offspring), "Slow_And_Small"]
-            G4_members += 1
-    
-
-    members += 1
 
 def Eating(GroupName, GroupNameP ,per1, per2, per3, VGroup1, VGroup2): #Function to manage eating 
     global ToBreedList, Food, FoodEaten, Group1, Group2, Group3, Group4, members, Deathlist
@@ -176,12 +144,8 @@ for i in range(days):
     if len(ToBreedList) >= 2:
         Breed()
         ToBreedList = []
-    BoN = random.choices([0, 1], [8, 2])[0]
     G1 = random.choice([Group1, Group2, Group3, Group4])
     G2 = random.choice([Group1, Group2, Group3, Group4])
-    if BoN == 1:
-        if len(G1.index) and len(G2.index) >= 2:
-            BreedRandom(G1, G2)
     G1D.append(len(Group1.index))
     G2D.append(len(Group2.index))
     G3D.append(len(Group3.index))
