@@ -63,7 +63,7 @@ def BreedRandom(PG1, PG2): #Function to breed random members of random groups
     members += 1
 
 def Eating(GroupName, GroupNameP ,per1, per2, per3, VGroup1, VGroup2): #Function to manage eating 
-    global ToBreedList, Food, FoodEaten, Group1, Group2, Group3, Group4, members, Deathlist
+    global ToBreedList, Food, FoodEaten, Group1, Group2, Group3, Group4, members, Deatlist
     FoodEaten = 0
     mems = 0
     for i in GroupName["GenoType"]:
@@ -89,7 +89,7 @@ def Eating(GroupName, GroupNameP ,per1, per2, per3, VGroup1, VGroup2): #Function
                     ToBreedList.append(i)
         mems += 1
         if Food <= 0:
-            Deathlist.append(i)
+            Deatlist.append(i)
     mems = 0
 
 
@@ -148,8 +148,8 @@ def plot(): #Function to plot results
     plt.show()
 
 def KWDE(): #Function to eliminate members who didn't get food
-    global Deathlist, Group1, Group2, Group3, Group4
-    for i in Deathlist:
+    global Deatlist, Group1, Group2, Group3, Group4
+    for i in Deatlist:
          if "F" in i and "B" not in i:
              Group1 = Group1[Group1["GenoType"].str.contains(i) == False]
          elif "F" not in i and "B" in i:
@@ -165,7 +165,7 @@ daysPassed = 0
 Food = int(input("Input Food count: "))
 G1D, G2D, G3D, G4D = [], [], [], []
 ToBreedList = []
-Deathlist = []
+Deatlist = []
 
 
 Start()
@@ -188,7 +188,7 @@ for i in range(days):
     G4D.append(len(Group4.index))
 
 
-print(Deathlist)
+print(Deatlist)
 print(G1D, G2D, G3D, G4D)
 x = []
 Xticks = []
