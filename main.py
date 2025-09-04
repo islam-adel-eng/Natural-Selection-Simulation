@@ -52,11 +52,11 @@ def BreedRandom(PG1, PG2): #Function to breed random members of random groups
     elif "F" not in offspring and "B" in offspring:
         Group2.loc[G2_members] = [f"Member{G2_members+1}", str(offspring), "Slow_And_Big"]
         G2_members += 1
-    elif "F" and "B" in offspring:
+    elif "F" in offspring and "B" in offspring:
         Group3.loc[G3_members] = [f"Member{G3_members+1}", str(offspring), "Fast_And_Big"]
         G3_members += 1
-    elif "F" and "B" not in offspring and "f" and "b" in offspring:
-            Group4.loc[G4_members] = [f"Member{G4_members+1}", str(offspring), "Slow_AndSmall"]
+    elif "F" not in offspring and "B" not in offspring:
+            Group4.loc[G4_members] = [f"Member{G4_members+1}", str(offspring), "Slow_And_Small"]
             G4_members += 1
     
 
@@ -115,10 +115,10 @@ def Breed(): #Function to manage breeding between members who meet the requirmen
         elif "F" not in offspring and "B" in offspring:
             Group2.loc[G2_members] = [f"Member{G2_members+1}", str(offspring), "Slow_And_Big"]
             G2_members += 1
-        elif "F" and "B" in offspring:
+        elif "F" in offspring and "B" in offspring:
             Group3.loc[G3_members] = [f"Member{G3_members+1}", str(offspring), "Fast_And_Big"]
             G3_members += 1
-        elif "F" and "B" not in offspring:
+        elif "F" not in offspring and "B" not in offspring:
             Group4.loc[G4_members] = [f"Member{G4_members+1}", str(offspring), "Slow_And_Small"]
             G4_members += 1
         members += 1
@@ -154,9 +154,9 @@ def KWDE(): #Function to eliminate members who didn't get food
              Group1 = Group1[Group1["GenoType"].str.contains(i) == False]
          elif "F" not in i and "B" in i:
              Group2 = Group2[Group2["GenoType"].str.contains(i) == False]
-         elif "F" and "B" in i:
+         elif "F" in i and "B" in i:
              Group3 = Group3[Group3["GenoType"].str.contains(i) == False]
-         elif "F" and "B" not in i:
+         elif "F" not in i and "B" not in i:
              Group4 = Group4[Group4["GenoType"].str.contains(i) == False]
 
 
